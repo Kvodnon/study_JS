@@ -2,7 +2,7 @@
 
 let isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
-}
+};
 
 let money,
     income = "преподавание",
@@ -18,13 +18,13 @@ let start = function() {
 
   addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
   deposit = confirm("Есть ли у вас депозит в банке?");
-}
+};
 
 start();
 
 let showTypeOf = function(data) {
   console.log(data, typeof(data));
-}
+};
 
 showTypeOf(money);
 showTypeOf(income);
@@ -59,19 +59,19 @@ let getExpensesMonth = function() {
   }
   
   return sum;
-}
+};
 
 let expensesAmount = getExpensesMonth();
 
 let getAccumulatedMonth = function() {
   return money - expensesAmount;
-}
+};
 
 const accumulatedMonth = getAccumulatedMonth();
 
 let getTargetMonth = function() {
   return mission / accumulatedMonth;
-}
+};
 
 // console.log('getTargetMonth: ', getTargetMonth());
 if (Math.ceil(getTargetMonth()) < 0 || Math.ceil(getTargetMonth()) === -0) {
@@ -96,6 +96,6 @@ let getStatusIncome = function() {
   } else {
     return 'У вас высокий уровень дохода';
   }
-} 
+};
 
 console.log(getStatusIncome());
