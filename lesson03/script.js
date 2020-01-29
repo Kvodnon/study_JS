@@ -26,16 +26,23 @@ money = prompt("Ваш месячный доход?");
 addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
 deposit = confirm("Есть ли у вас депозит в банке?");
 
-// let expenses1 = prompt("Введите обязательную статью расходов?");
-// let expenses2 = prompt("Введите обязательную статью расходов?");
+// 5
+let expenses1 = prompt("Введите первую обязательную статью расходов?");
+let amount1 = prompt("Во сколько это обойдется?");
 
-// let amount1 = prompt("Во сколько это обойдется?");
-// let amount2 = prompt("Во сколько это обойдется?");
+let expenses2 = prompt("Введите вторую обязательную статью расходов?");
+let amount2 = prompt("Во сколько это обойдется?");
 
-let budgetMonth = +money - +addExpenses;
-budgetDay = budgetMonth / 30;
+// 6
+let budgetMonth = +money - +amount1 - +amount2;
+console.log('Бюджет на месяц: ', budgetMonth);
 
+// 7
 console.log('Цель будет достигнута за месяцев:', Math.ceil(mission / budgetMonth));
+
+// 8
+budgetDay = Math.floor(budgetMonth / 30);
+console.log('budgetDay: ', budgetDay);
 
 if (budgetDay > 1200) {
   console.log('У вас высокий уровень дохода');
