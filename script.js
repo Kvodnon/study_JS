@@ -6,8 +6,8 @@ let isNumber = function(n) {
 
 let money,
     income = "преподавание",
-    addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую"),
-    deposit = confirm("Есть ли у вас депозит в банке?"),
+    addExpenses,
+    deposit,
     mission = 60000,
     period = 12;
 
@@ -15,6 +15,9 @@ let start = function() {
   do {
     money = prompt("Ваш месячный доход?");
   } while (!isNumber(money));
+
+  addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
+  deposit = confirm("Есть ли у вас депозит в банке?");
 }
 
 start();
