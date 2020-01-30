@@ -20,7 +20,6 @@ console.log('addExpenses: ', addExpenses.length);
 console.log('Период равен ' + period + ' месяцев');
 console.log('Цель заработать ' + mission + ' рублей');
 
-console.log(addExpenses.toLowerCase().split(', '));
 
 let budgetDay = money / 30;
 
@@ -29,6 +28,8 @@ console.log('budgetDay: ', budgetDay);
 money = prompt("Ваш месячный доход?");
 addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
 deposit = confirm("Есть ли у вас депозит в банке?");
+
+console.log(addExpenses.toLowerCase().split(', '));
 
 // 5
 let expenses1 = prompt("Введите первую обязательную статью расходов?");
