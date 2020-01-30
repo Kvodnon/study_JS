@@ -73,8 +73,11 @@ let getTargetMonth = function() {
   return mission / accumulatedMonth;
 };
 
-// console.log('getTargetMonth: ', getTargetMonth());
-if (Math.ceil(getTargetMonth()) < 0 || Math.ceil(getTargetMonth()) === -0) {
+let targetMonth = getTargetMonth();
+
+// console.log('targetMonth: ', targetMonth);
+// console.log('targetMonth: ', Math.ceil(targetMonth));
+if (targetMonth < 0) {
   // 7
   console.log('Цель не будет достигнута :(');
 } else {
