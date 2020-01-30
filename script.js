@@ -38,15 +38,17 @@ let amount1 = prompt("Во сколько это обойдется?");
 let expenses2 = prompt("Введите вторую обязательную статью расходов?");
 let amount2 = prompt("Во сколько это обойдется?");
 
-let getExpensesMonth = function(amount1, amount2) {
-  return amount1 + amount2;
+let getExpensesMonth = function() {
+  return +amount1 + +amount2;
 }
 
-let getAccumulatedMonth = function(budget, expenses) {
-  return budget - expenses;
+let expensesMonth = getExpensesMonth();
+
+let getAccumulatedMonth = function() {
+  return money - expensesMonth;
 }
 
-const accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth(amount1, amount2));
+const accumulatedMonth = getAccumulatedMonth();
 
 let getTargetMonth = function() {
   return mission / accumulatedMonth;
