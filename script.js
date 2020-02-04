@@ -13,7 +13,7 @@ let getVariableValue = function(question, byDefault, flag) {
       return !isNumber(answer);
     }
 
-    return isNumber(answer);
+    return isNumber(parseInt(answer.split('').sort().join('')));
   };
   
   do {
