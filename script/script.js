@@ -95,6 +95,9 @@ let appData = {
   },
   addItem: function(parent, selector, plus, length) {
     let clone = parent[0].cloneNode(true);
+
+    clone.getElementsByTagName('input')[0].addEventListener('input', appData.replaceExceptString);
+    clone.getElementsByTagName('input')[1].addEventListener('input', appData.replaceExceptNumber);
     
     appData.clearValues(clone);
     
@@ -199,14 +202,33 @@ let appData = {
     inputs.forEach(function(input) {
       input.value = '';
     });
+  },
+  replaceExceptString: function() {
+    this.value = this.value.replace(/[^а-я\s,]/,'');
+  },
+  replaceExceptNumber: function() {
+    this.value = this.value.replace(/[^0-9]/,'');
   }
 };
 
 calculate.setAttribute('disabled', true);
-
 calculate.addEventListener('click', appData.calculate);
 
 expensesPlus.addEventListener('click', appData.addExpensesItem);
 incomePlus.addEventListener('click', appData.addIncomeItem);
 
 salaryAmount.addEventListener('input', appData.checkSalaryAmount);
+salaryAmount.addEventListener('input', appData.replaceExceptNumber);
+
+incomeItems[0].getElementsByTagName('input')[0].addEventListener('input', appData.replaceExceptString);
+incomeItems[0].getElementsByTagName('input')[1].addEventListener('input', appData.replaceExceptNumber);
+
+additionalIncomes[0].addEventListener('input', appData.replaceExceptString);
+additionalIncomes[1].addEventListener('input', appData.replaceExceptString);
+
+expensesItems[0].getElementsByTagName('input')[0].addEventListener('input', appData.replaceExceptString);
+expensesItems[0].getElementsByTagName('input')[1].addEventListener('input', appData.replaceExceptNumber);
+
+additionalExpenses.addEventListener('input', appData.replaceExceptString);
+
+target.addEventListener('input', appData.replaceExceptNumber);
