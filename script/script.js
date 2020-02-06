@@ -63,6 +63,9 @@ let appData = {
   depositMoney: 0,
   period: 12,
   calculate: function() {
+    range.removeEventListener('input', appData.rangeBeforeCalc);
+    range.addEventListener('input', appData.rangeAfterCalc);
+
     appData.budget = +salaryAmount.value;
 
     appData.setData(expensesItems, '.expenses-title', '.expenses-amount', 'expenses');
@@ -85,7 +88,6 @@ let appData = {
     targetMon.value = Math.ceil(appData.getTargetMonth());
     incomePeriod.value = appData.calcSavedMoney();
 
-    range.addEventListener('input', appData.range);
   },
   addExpensesItem: function() {
     expensesItems = appData.addItem(expensesItems, '.expenses-items', expensesPlus, 3);
@@ -182,7 +184,10 @@ let appData = {
   calcSavedMoney: function () {
     return appData.budgetMonth * range.value;
   },
-  range: function(event) {
+  rangeBeforeCalc: function(event) {
+    periodAmount.textContent = this.value;
+  },
+  rangeAfterCalc: function(event) {
     periodAmount.textContent = this.value;
 
     appData.setResult();
@@ -190,10 +195,12 @@ let appData = {
   checkSalaryAmount: function() {
     if (this.value !== '') {
       calculate.removeAttribute('disabled');
+      calculate.style.pointerEvents = 'all';
     } 
     
     if (this.value === '') {
       calculate.setAttribute('disabled', true);
+      calculate.style.pointerEvents = 'none';
     }
   },
   clearValues: function(parent) {
@@ -208,10 +215,14 @@ let appData = {
   },
   replaceExceptNumber: function() {
     this.value = this.value.replace(/[^0-9]/,'');
+  },
+  onCalcHover: function() {
+
   }
 };
 
 calculate.setAttribute('disabled', true);
+calculate.style.pointerEvents = 'none';
 calculate.addEventListener('click', appData.calculate);
 
 expensesPlus.addEventListener('click', appData.addExpensesItem);
@@ -232,3 +243,4 @@ expensesItems[0].getElementsByTagName('input')[1].addEventListener('input', appD
 additionalExpenses.addEventListener('input', appData.replaceExceptString);
 
 target.addEventListener('input', appData.replaceExceptNumber);
+range.addEventListener('input', appData.rangeBeforeCalc);
