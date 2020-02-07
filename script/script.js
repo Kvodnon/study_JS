@@ -23,7 +23,8 @@ let calculate = document.getElementById('start'),
     incomePlus = cons[0],
     expensesPlus = cons[1],
     expensesItems = document.querySelectorAll('.expenses-items'),
-    periodAmount = document.querySelector('.period-amount');    
+    periodAmount = document.querySelector('.period-amount'),
+    data = document.querySelector('.data');    
 
 let isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -65,6 +66,8 @@ let appData = {
   incomesClones: [],
   expensesClones: [],
   calculate: function() {
+    this.toggleAccessForm(true);
+
     this.budget = +salaryAmount.value;
 
     this.setData(expensesItems, '.expenses-title', '.expenses-amount', 'expenses');
@@ -86,7 +89,6 @@ let appData = {
     additionalIncome.value = this.addIncome.join(', ');
     targetMon.value = Math.ceil(this.getTargetMonth());
     incomePeriod.value = this.calcSavedMoney();
-
   },
   addExpensesItem: function() {
     expensesItems = this.addItem(expensesItems, '.expenses-items', expensesPlus, 3, 'expensesClones');
@@ -199,12 +201,12 @@ let appData = {
   },
   checkSalaryAmount: function() {
     if (this.value !== '') {
-      calculate.removeAttribute('disabled');
+      calculate.disabled = false;
       calculate.style.pointerEvents = 'all';
     } 
     
     if (this.value === '') {
-      calculate.setAttribute('disabled', 'disabled');
+      calculate.disabled = true;
       calculate.style.pointerEvents = 'none';
     }
   },
@@ -238,7 +240,7 @@ let appData = {
     this.expenses = {};
     this.income = {};
 
-    this.toggleAccessForm(true);
+    this.toggleAccessForm();
     this.removeClones();
 
     calculate.style.display = 'block';
@@ -249,41 +251,14 @@ let appData = {
     this.checkSalaryAmount.call({value: salaryAmount.value});
   },
   toggleAccessForm: function(access = false) {
-    if (access) {
-      salaryAmount.removeAttribute('disabled');
-    } else {
-      salaryAmount.setAttribute('disabled', 'disabled');
-    }
+    let inputs = data.querySelectorAll('[type="text"]');
 
-    this.toggleAccessThroughtParent(expensesItems, access);
-    this.toggleAccessThroughtParent(incomeItems, access);
-    this.toggleAccess(additionalIncomes, access);
-    this.toggleAccess([additionalExpenses], access);
-    this.toggleAccess([target], access);
-    this.toggleAccess([incomePlus], access);
-    this.toggleAccess([expensesPlus], access);
-    this.toggleAccess([range], access);
-    this.toggleAccess([deposit], access);
+    inputs.forEach(function(input) {
+      input.disabled = access;
+    });
 
     cancel.style.display = 'block';
     calculate.style.display = 'none';
-  },
-  toggleAccessThroughtParent: function(parent, access = false) {
-    let self = this;
-    parent.forEach(function(item) {
-      let inputs = item.querySelectorAll('input');
-
-      self.toggleAccess(inputs, access);
-    });
-  },
-  toggleAccess: function(inputs, access = false) {
-    inputs.forEach(function(input) {
-      if (access) {
-        input.removeAttribute('disabled');
-      } else {
-        input.setAttribute('disabled', 'disabled');
-      }
-    });
   },
   removeClones: function() {
     let clones = this.incomesClones.concat(this.expensesClones);
@@ -294,14 +269,9 @@ let appData = {
   }
 };
 
-calculate.setAttribute('disabled', 'disabled');
+calculate.disabled = true;
 calculate.style.pointerEvents = 'none';
-calculate.addEventListener('click', function() {
-  appData.calculate();
-});
-calculate.addEventListener('click', function() {
-  appData.toggleAccessForm();
-});
+calculate.addEventListener('click', appData.calculate.bind(appData));
 
 cancel.addEventListener('click', function() {
   appData.cancel();
