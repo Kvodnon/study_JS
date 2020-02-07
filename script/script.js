@@ -62,50 +62,51 @@ let appData = {
   depositPercent: 0,
   depositMoney: 0,
   period: 12,
+  incomesClones: [],
+  expensesClones: [],
   calculate: function() {
-    range.removeEventListener('input', appData.rangeBeforeCalc);
-    range.addEventListener('input', appData.rangeAfterCalc);
+    this.budget = +salaryAmount.value;
 
-    appData.budget = +salaryAmount.value;
+    this.setData(expensesItems, '.expenses-title', '.expenses-amount', 'expenses');
+    this.setData(incomeItems, '.income-title', '.income-amount', 'incomeMonth');
 
-    appData.setData(expensesItems, '.expenses-title', '.expenses-amount', 'expenses');
-    appData.setData(incomeItems, '.income-title', '.income-amount', 'incomeMonth');
-
-    appData.getAddExpenses();
-    appData.getAddIncome();
+    this.getAddExpenses();
+    this.getAddIncome();
     
-    appData.getExpensesMonth();
-    appData.getBudget();
+    this.getExpensesMonth();
+    this.getBudget();
 
-    appData.setResult();
+    this.setResult();
   },
   setResult: function() {
-    budgetMonth.value = appData.budgetMonth;
-    budgetDay.value = Math.floor(appData.budgetDay);
-    expensesMonth.value = appData.expensesMonth;
-    additionalExpense.value = appData.addExpenses.join(', ');
-    additionalIncome.value = appData.addIncome.join(', ');
-    targetMon.value = Math.ceil(appData.getTargetMonth());
-    incomePeriod.value = appData.calcSavedMoney();
+    budgetMonth.value = this.budgetMonth;
+    budgetDay.value = Math.floor(this.budgetDay);
+    expensesMonth.value = this.expensesMonth;
+    additionalExpense.value = this.addExpenses.join(', ');
+    additionalIncome.value = this.addIncome.join(', ');
+    targetMon.value = Math.ceil(this.getTargetMonth());
+    incomePeriod.value = this.calcSavedMoney();
 
   },
   addExpensesItem: function() {
-    expensesItems = appData.addItem(expensesItems, '.expenses-items', expensesPlus, 3);
+    expensesItems = this.addItem(expensesItems, '.expenses-items', expensesPlus, 3, 'expensesClones');
   },
   addIncomeItem: function() {
-    incomeItems = appData.addItem(incomeItems, '.income-items', incomePlus, 3);
+    incomeItems = this.addItem(incomeItems, '.income-items', incomePlus, 3, 'incomesClones');
   },
-  addItem: function(parent, selector, plus, length) {
+  addItem: function(parent, selector, plus, length, cloneSelector) {
     let clone = parent[0].cloneNode(true);
 
-    clone.getElementsByTagName('input')[0].addEventListener('input', appData.replaceExceptString);
-    clone.getElementsByTagName('input')[1].addEventListener('input', appData.replaceExceptNumber);
+    clone.getElementsByTagName('input')[0].addEventListener('input', this.replaceExceptString);
+    clone.getElementsByTagName('input')[1].addEventListener('input', this.replaceExceptNumber);
     
-    appData.clearValues(clone);
+    this.clearValues(clone);
     
     parent[0].parentNode.insertBefore(clone, plus);
     
     parent = document.querySelectorAll(selector);
+
+    this[cloneSelector].push(clone);
     
     if (parent.length === length) {
       plus.style.display = 'none';
@@ -114,6 +115,7 @@ let appData = {
     return parent;
   },
   setData: function(parent, titleSelector, amountSelector, field) {
+    let self = this;
 
     parent.forEach(function(item) {
       let title = item.querySelector(titleSelector).value;
@@ -121,53 +123,56 @@ let appData = {
       
       if (title !== '' && amount !== '') {
         if (field === 'expenses') {
-          appData[field][title] = +amount;
+          self[field][title] = +amount;
         } else {
-          appData[field] += +amount;
+          self[field] += +amount;
         }
       }
     });
   },
   getAddExpenses: function() {
     let addExpenses = additionalExpenses.value.split(',');
+    let self = this;
 
     addExpenses.forEach(function(item) {
       item = item.trim();
 
       if (item !== '') {
-        appData.addExpenses.push(item);
+        self.addExpenses.push(item);
       }
     });
   },
   getAddIncome: function() {
+    let self = this;
+
     additionalIncomes.forEach(function(item) {
       let value = item.value.trim();
 
       if (value !== '') {
-        appData.addIncome.push(value);
+        self.addIncome.push(value);
       }
     });
   },
   getExpensesMonth: function () {
-    for (let key in appData.expenses) {
-      appData.expensesMonth += appData.expenses[key];
+    for (let key in this.expenses) {
+      this.expensesMonth += this.expenses[key];
     }
   },
   getBudget: function () {
-    appData.budgetMonth = appData.budget + appData.incomeMonth - appData.expensesMonth;
-    appData.budgetDay = appData.budgetMonth / 30;
+    this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+    this.budgetDay = this.budgetMonth / 30;
   },
   getTargetMonth: function () {
-    return target.value / appData.budgetMonth;
+    return target.value / this.budgetMonth;
   },
   getStatusIncome: function () {
     let message;
 
-    if (appData.budgetDay >= 600 & appData.budgetDay < 1200) {
+    if (this.budgetDay >= 600 & this.budgetDay < 1200) {
       message = 'У вас средний уровень дохода';
-    } else if (appData.budgetDay >= 0 & appData.budgetDay < 600) {
+    } else if (this.budgetDay >= 0 & this.budgetDay < 600) {
       message = 'К сожалению у вас уровень дохода ниже среднего';
-    } else if (!appData.budgetDay | appData.budgetDay < 0) {
+    } else if (!this.budgetDay | this.budgetDay < 0) {
       message = 'Что то пошло не так';
     } else {
       message = 'У вас высокий уровень дохода';
@@ -176,21 +181,21 @@ let appData = {
     return message;
   },
   getDepositInfo: function () {
-    if (appData.deposit) {
-      appData.depositPercent = getVariableValue('Какой годовой процент?', '10', false);
-      appData.depositMoney = getVariableValue('Какая сумма заложена?', 10000, false);
+    if (this.deposit) {
+      this.depositPercent = getVariableValue('Какой годовой процент?', '10', false);
+      this.depositMoney = getVariableValue('Какая сумма заложена?', 10000, false);
     }
   },
   calcSavedMoney: function () {
-    return appData.budgetMonth * range.value;
+    return this.budgetMonth * range.value;
   },
-  rangeBeforeCalc: function(event) {
-    periodAmount.textContent = this.value;
+  rangeBeforeCalc: function() {
+    periodAmount.textContent = range.value;
   },
-  rangeAfterCalc: function(event) {
-    periodAmount.textContent = this.value;
+  rangeAfterCalc: function() {
+    this.rangeBeforeCalc();
 
-    appData.setResult();
+    this.setResult();
   },
   checkSalaryAmount: function() {
     if (this.value !== '') {
@@ -199,16 +204,23 @@ let appData = {
     } 
     
     if (this.value === '') {
-      calculate.setAttribute('disabled', true);
+      calculate.setAttribute('disabled', 'disabled');
       calculate.style.pointerEvents = 'none';
     }
   },
   clearValues: function(parent) {
-    let inputs = parent.querySelectorAll('input');
+    let inputs = parent.querySelectorAll('input'),
+        self = this;
 
     inputs.forEach(function(input) {
       input.value = '';
+
+      if (input.type === 'range') {
+        input.value = 1;
+        self.rangeBeforeCalc();
+      }
     });
+
   },
   replaceExceptString: function() {
     this.value = this.value.replace(/[^а-я\s,]/,'');
@@ -216,17 +228,91 @@ let appData = {
   replaceExceptNumber: function() {
     this.value = this.value.replace(/[^0-9]/,'');
   },
-  onCalcHover: function() {
+  cancel: function() {
+    this.budgetDay = 0;
+    this.incomeMonth = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+    this.addExpenses = [];
+    this.addIncome = [];
+    this.expenses = {};
+    this.income = {};
 
+    this.toggleAccessForm(true);
+    this.removeClones();
+
+    calculate.style.display = 'block';
+    cancel.style.display = 'none';
+
+    this.clearValues(document);
+
+    this.checkSalaryAmount.call({value: salaryAmount.value});
+  },
+  toggleAccessForm: function(access = false) {
+    if (access) {
+      salaryAmount.removeAttribute('disabled');
+    } else {
+      salaryAmount.setAttribute('disabled', 'disabled');
+    }
+
+    this.toggleAccessThroughtParent(expensesItems, access);
+    this.toggleAccessThroughtParent(incomeItems, access);
+    this.toggleAccess(additionalIncomes, access);
+    this.toggleAccess([additionalExpenses], access);
+    this.toggleAccess([target], access);
+    this.toggleAccess([incomePlus], access);
+    this.toggleAccess([expensesPlus], access);
+    this.toggleAccess([range], access);
+    this.toggleAccess([deposit], access);
+
+    cancel.style.display = 'block';
+    calculate.style.display = 'none';
+  },
+  toggleAccessThroughtParent: function(parent, access = false) {
+    let self = this;
+    parent.forEach(function(item) {
+      let inputs = item.querySelectorAll('input');
+
+      self.toggleAccess(inputs, access);
+    });
+  },
+  toggleAccess: function(inputs, access = false) {
+    inputs.forEach(function(input) {
+      if (access) {
+        input.removeAttribute('disabled');
+      } else {
+        input.setAttribute('disabled', 'disabled');
+      }
+    });
+  },
+  removeClones: function() {
+    let clones = this.incomesClones.concat(this.expensesClones);
+
+    clones.forEach(function(clone) {
+      clone.remove();
+    });
   }
 };
 
-calculate.setAttribute('disabled', true);
+calculate.setAttribute('disabled', 'disabled');
 calculate.style.pointerEvents = 'none';
-calculate.addEventListener('click', appData.calculate);
+calculate.addEventListener('click', function() {
+  appData.calculate();
+});
+calculate.addEventListener('click', function() {
+  appData.toggleAccessForm();
+});
 
-expensesPlus.addEventListener('click', appData.addExpensesItem);
-incomePlus.addEventListener('click', appData.addIncomeItem);
+cancel.addEventListener('click', function() {
+  appData.cancel();
+});
+
+expensesPlus.addEventListener('click', function() {
+  appData.addExpensesItem();
+});
+incomePlus.addEventListener('click', function() {
+  appData.addIncomeItem();
+});
 
 salaryAmount.addEventListener('input', appData.checkSalaryAmount);
 salaryAmount.addEventListener('input', appData.replaceExceptNumber);
