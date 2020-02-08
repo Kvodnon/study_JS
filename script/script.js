@@ -251,7 +251,7 @@ let appData = {
     this.checkSalaryAmount.call({value: salaryAmount.value});
   },
   toggleAccessForm: function(access = false) {
-    let inputs = data.querySelectorAll('[type="text"]');
+    let inputs = data.querySelectorAll('[type="text"],[type="range"]');
 
     inputs.forEach(function(input) {
       input.disabled = access;
@@ -265,7 +265,7 @@ let appData = {
 
     clones.forEach(function(clone) {
       clone.remove();
-    });
+  });
   }
 };
 
