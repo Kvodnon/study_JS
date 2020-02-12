@@ -254,6 +254,9 @@ AppData.prototype.cancel = function() {
   this.clearValues(document);
 
   this.checkSalaryAmount.call({value: salaryAmount.value});
+
+  incomePlus.style.display = 'block';
+  expensesPlus.style.display = 'block';
 };
 AppData.prototype.toggleAccessForm = function(access = false) {
   let inputs = data.querySelectorAll('[type="text"],[type="range"]');
@@ -270,7 +273,7 @@ AppData.prototype.removeClones = function() {
 
   clones.forEach(function(clone) {
     clone.remove();
-});
+  });
 };
 AppData.prototype.eventListeners = function() {
   calculate.addEventListener('click', this.calculate.bind(this));
@@ -300,4 +303,3 @@ AppData.prototype.eventListeners = function() {
 
 const appData = new AppData();
 appData.eventListeners();
-
