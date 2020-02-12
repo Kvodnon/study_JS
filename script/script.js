@@ -244,18 +244,6 @@ class AppData {
   }
   
   cancel() {
-    // console.log('this: ', this.prototype);
-    // this.prototype.constructor();
-    
-    // this.budgetDay = 0;
-    // this.incomeMonth = 0;
-    // this.budgetMonth = 0;
-    // this.expensesMonth = 0;
-    // this.addExpenses = [];
-    // this.addIncome = [];
-    // this.expenses = {};
-    // this.income = {};
-    
     this.toggleAccessForm();
     this.removeClones();
     
