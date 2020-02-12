@@ -249,6 +249,9 @@ class AppData {
     
     calculate.style.display = 'block';
     cancel.style.display = 'none';
+
+    incomePlus.style.display = 'block';
+    expensesPlus.style.display = 'block';
     
     this.clearValues(document);
     
