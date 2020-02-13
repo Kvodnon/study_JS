@@ -252,12 +252,14 @@ class AppData {
 
     incomePlus.style.display = 'block';
     expensesPlus.style.display = 'block';
+    deposit.checked = false;
     
     this.clearValues(document);
     
     this.checkSalaryAmount.call({value: salaryAmount.value});
     
     Object.assign(this, new this.constructor());
+
   }
   
   toggleAccessForm(access = false) {
