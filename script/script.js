@@ -250,6 +250,8 @@ AppData.prototype.cancel = function() {
 
   calculate.style.display = 'block';
   cancel.style.display = 'none';
+  
+  deposit.checked = false;
 
   this.clearValues(document);
 
