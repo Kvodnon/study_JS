@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
       menuItems = menu.querySelectorAll('ul > li');
 
     let transformFrame,
-      transformValue = 0;
+      transformValue = -100;
 
     function ValueCounter() {
       let counter = 0;
