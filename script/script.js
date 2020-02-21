@@ -62,8 +62,8 @@ window.addEventListener('DOMContentLoaded', () => {
   setInterval(countTimer, 1000, '21 february 2020');
 
   const toggleMenu = () => {
-    const menuBtn = document.querySelector('.menu'),
-      menu = document.querySelector('menu');
+    const menu = document.querySelector('menu'),
+      body = document.getElementsByTagName('body')[0];
 
     let transformFrame,
       transformValue = -100;
@@ -115,26 +115,32 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const closeMenu = () => {
+      if (transformValue === 0) {
+        menu.style.transform = 'translate(-100%)';
+        transformValue = -100;
+      }
+    };
+
     const clickMenu = event => {
       const target = event.target;
 
-      if (target.matches('.close-btn, a') || !target.closest('menu')) {
+      if (target.matches('.close-btn, a, .menu') || target.closest('.menu')) {
         menuHandler();
+      } else if (!target.closest('menu')) {
+        closeMenu();
       }
     };
 
     if (window.innerWidth > 768) {
-      menuBtn.addEventListener('click', menuHandler);
-      menu.addEventListener('click', clickMenu);
+      body.addEventListener('click', clickMenu);
     }
 
     screen.orientation.addEventListener('change', () => {
       if (screen.width < 769) {
-        menuBtn.removeEventListener('click', menuHandler);
-        menu.removeEventListener('click', clickMenu);
+        body.removeEventListener('click', clickMenu);
       } else {
-        menuBtn.addEventListener('click', menuHandler);
-        menu.addEventListener('click', clickMenu);
+        body.addEventListener('click', clickMenu);
       }
     });
   };
