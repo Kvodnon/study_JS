@@ -86,17 +86,17 @@ window.addEventListener('DOMContentLoaded', () => {
     const flowMenu = () => {
       transformFrame = requestAnimationFrame(flowMenu);
 
-      if (transformValue === 100) {
+      if (transformValue === 0) {
         cancelAnimationFrame(transformFrame);
         return;
       }
 
-      transformValue = transformCounter();
+      transformValue = -100 + transformCounter();
       menu.style.transform = `translate(${transformValue}%)`;
     };
 
     const checkAnimateCondition = () => {
-      if (transformValue === 0) {
+      if (transformValue === -100) {
         return true;
       }
 
@@ -106,14 +106,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const menuHandler = () => {
       if (checkAnimateCondition()) {
         transformCounter = new ValueCounter();
-        transformValue = 0;
+        transformValue = -100;
 
         transformFrame = requestAnimationFrame(flowMenu);
       }
 
-      if (transformValue === 100) {
+      if (transformValue === 0) {
         menu.style.transform = 'translate(-100%)';
-        transformValue = 0;
+        transformValue = -100;
       }
     };
 
