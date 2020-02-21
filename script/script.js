@@ -63,9 +63,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const toggleMenu = () => {
     const menuBtn = document.querySelector('.menu'),
-      menu = document.querySelector('menu'),
-      btnClose = document.querySelector('.close-btn'),
-      menuItems = menu.querySelectorAll('ul > li');
+      menu = document.querySelector('menu');
 
     let transformFrame,
       transformValue = -100;
@@ -117,23 +115,26 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const clickMenu = event => {
+      const target = event.target;
+
+      if (target.matches('.close-btn, a') || !target.closest('menu')) {
+        menuHandler();
+      }
+    };
+
     if (window.innerWidth > 768) {
       menuBtn.addEventListener('click', menuHandler);
-      btnClose.addEventListener('click', menuHandler);
-    }
-
-    for (const item of menuItems) {
-      item.addEventListener('click', menuHandler);
+      menu.addEventListener('click', clickMenu);
     }
 
     screen.orientation.addEventListener('change', () => {
       if (screen.width < 769) {
-        menuHandler();
         menuBtn.removeEventListener('click', menuHandler);
-        btnClose.removeEventListener('click', menuHandler);
+        menu.removeEventListener('click', clickMenu);
       } else {
         menuBtn.addEventListener('click', menuHandler);
-        btnClose.addEventListener('click', menuHandler);
+        menu.addEventListener('click', clickMenu);
       }
     });
   };
@@ -166,7 +167,7 @@ window.addEventListener('DOMContentLoaded', () => {
       serviceBlock = document.getElementById('service-block'),
       scrollStep = 40,
       menu = document.querySelector('menu'),
-      menuItems = menu.querySelectorAll('ul > li');
+      menuItems = menu.querySelectorAll('ul > li > a');
 
     let frameId;
 
@@ -197,7 +198,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     for (const item of menuItems) {
       item.addEventListener('click', function (event) {
-        toSecondScreen(event, document.querySelector(this.querySelector('a').getAttribute('href')));
+        toSecondScreen(event, document.querySelector(this.getAttribute('href')));
       });
     }
   };
