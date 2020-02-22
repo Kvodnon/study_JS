@@ -74,7 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let counter = 0;
       const step = 4;
 
-      return function() {
+      return function () {
         counter += step;
 
         return counter;
@@ -141,15 +141,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
   toggleMenu();
 
+
   const openPopup = () => {
     const popup = document.querySelector('.popup'),
+      popupContent = document.querySelector('.popup-content'),
       popupBtns = document.querySelectorAll('.popup-btn'),
       popupClose = document.querySelector('.popup-close');
 
+    const animatePopup = () => {
+      popupContent.style.transition = 'opacity .2s';
+      popup.style.transition = 'opacity .2s';
+      popupContent.style.opacity = 0;
+      popup.style.opacity = 0;
+      popup.style.display = 'block';
+
+      setTimeout(() => {
+        popupContent.style.opacity = 1;
+        popup.style.opacity = 1;
+      }, 50);
+    };
+
     for (const btn of popupBtns) {
-      btn.addEventListener('click', () => {
-        popup.style.display = 'block';
-      });
+      btn.addEventListener('click', animatePopup);
     }
 
     popupClose.addEventListener('click', () => {
