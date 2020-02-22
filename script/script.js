@@ -161,9 +161,18 @@ window.addEventListener('DOMContentLoaded', () => {
       }, 50);
     };
 
-    for (const btn of popupBtns) {
-      btn.addEventListener('click', animatePopup);
+    if (window.innerWidth > 768) {
+      for (const btn of popupBtns) {
+        btn.addEventListener('click', animatePopup);
+      }
+    } else {
+      for (const btn of popupBtns) {
+        btn.addEventListener('click', () => {
+          popup.style.display = 'block';
+        });
+      }
     }
+
 
     popupClose.addEventListener('click', () => {
       popup.style.display = 'none';
