@@ -149,8 +149,8 @@ window.addEventListener('DOMContentLoaded', () => {
       popupClose = document.querySelector('.popup-close');
 
     const animatePopup = () => {
-      popupContent.style.transition = 'opacity .2s';
-      popup.style.transition = 'opacity .2s';
+      popupContent.style.transition = 'opacity .4s';
+      popup.style.transition = 'opacity .4s';
       popupContent.style.opacity = 0;
       popup.style.opacity = 0;
       popup.style.display = 'block';
@@ -173,9 +173,13 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-
     popupClose.addEventListener('click', () => {
-      popup.style.display = 'none';
+      popupContent.style.opacity = 0;
+      popup.style.opacity = 0;
+
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 400);
     });
   };
 
