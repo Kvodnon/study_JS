@@ -141,7 +141,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   toggleMenu();
 
-
   const openPopup = () => {
     const popup = document.querySelector('.popup'),
       popupContent = document.querySelector('.popup-content'),
@@ -149,38 +148,38 @@ window.addEventListener('DOMContentLoaded', () => {
       popupClose = document.querySelector('.popup-close');
 
     const animatePopup = () => {
-      popupContent.style.transition = 'opacity .4s';
-      popup.style.transition = 'opacity .4s';
-      popupContent.style.opacity = 0;
-      popup.style.opacity = 0;
-      popup.style.display = 'block';
+      if (window.innerWidth > 768) {
+        popupContent.style.transition = 'opacity .4s';
+        popup.style.transition = 'opacity .4s';
+        popupContent.style.opacity = 0;
+        popup.style.opacity = 0;
 
-      setTimeout(() => {
-        popupContent.style.opacity = 1;
-        popup.style.opacity = 1;
-      }, 50);
+        setTimeout(() => {
+          popupContent.style.opacity = 1;
+          popup.style.opacity = 1;
+        }, 50);
+      }
+
+      popup.style.display = 'block';
     };
 
-    if (window.innerWidth > 768) {
-      for (const btn of popupBtns) {
-        btn.addEventListener('click', animatePopup);
-      }
-    } else {
-      for (const btn of popupBtns) {
-        btn.addEventListener('click', () => {
-          popup.style.display = 'block';
-        });
-      }
-    }
+    const closePopup = () => {
+      if (window.innerWidth > 768) {
+        popupContent.style.opacity = 0;
+        popup.style.opacity = 0;
 
-    popupClose.addEventListener('click', () => {
-      popupContent.style.opacity = 0;
-      popup.style.opacity = 0;
-
-      setTimeout(() => {
+        setTimeout(() => {
+          popup.style.display = 'none';
+        }, 400);
+      } else {
         popup.style.display = 'none';
-      }, 400);
-    });
+      }
+    };
+
+    for (const btn of popupBtns) {
+      btn.addEventListener('click', animatePopup);
+    }
+    popupClose.addEventListener('click', closePopup);
   };
 
   openPopup();
