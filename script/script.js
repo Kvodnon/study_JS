@@ -134,45 +134,38 @@ window.addEventListener('DOMContentLoaded', () => {
       popupClose = document.querySelector('.popup-close');
 
     const animatePopup = () => {
-      popupContent.style.transition = 'opacity .4s';
-      popup.style.transition = 'opacity .4s';
-      popupContent.style.opacity = 0;
-      popup.style.opacity = 0;
-      popup.style.display = 'block';
+      if (window.innerWidth > 768) {
+        popupContent.style.transition = 'opacity .4s';
+        popup.style.transition = 'opacity .4s';
+        popupContent.style.opacity = 0;
+        popup.style.opacity = 0;
 
-      setTimeout(() => {
-        popupContent.style.opacity = 1;
-        popup.style.opacity = 1;
-      }, 50);
+        setTimeout(() => {
+          popupContent.style.opacity = 1;
+          popup.style.opacity = 1;
+        }, 50);
+      }
+
+      popup.style.display = 'block';
     };
 
-    if (window.innerWidth > 768) {
-      for (const btn of popupBtns) {
-        btn.addEventListener('click', animatePopup);
-      }
-    } else {
-      for (const btn of popupBtns) {
-        btn.addEventListener('click', () => {
-          popup.style.display = 'block';
-        });
-      }
-    }
-
-    if (window.innerWidth > 768) {
-      popupClose.addEventListener('click', () => {
+    const closePopup = () => {
+      if (window.innerWidth > 768) {
         popupContent.style.opacity = 0;
         popup.style.opacity = 0;
 
         setTimeout(() => {
           popup.style.display = 'none';
         }, 400);
-      });
-    } else {
-      popupClose.addEventListener('click', () => {
+      } else {
         popup.style.display = 'none';
-      });
-    }
+      }
+    };
 
+    for (const btn of popupBtns) {
+      btn.addEventListener('click', animatePopup);
+    }
+    popupClose.addEventListener('click', closePopup);
   };
 
   openPopup();
@@ -185,7 +178,6 @@ window.addEventListener('DOMContentLoaded', () => {
       menuItems = menu.querySelectorAll('ul > li');
 
     let frameId;
-
 
     function translateScroll(offsetTop) {
       frameId = requestAnimationFrame(translateScroll.bind(this, offsetTop));
