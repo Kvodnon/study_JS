@@ -117,25 +117,12 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    if (window.innerWidth > 768) {
-      menuBtn.addEventListener('click', menuHandler);
-      btnClose.addEventListener('click', menuHandler);
-    }
+    menuBtn.addEventListener('click', menuHandler);
+    btnClose.addEventListener('click', menuHandler);
 
     for (const item of menuItems) {
       item.addEventListener('click', menuHandler);
     }
-
-    screen.orientation.addEventListener('change', () => {
-      if (screen.width < 769) {
-        menuHandler();
-        menuBtn.removeEventListener('click', menuHandler);
-        btnClose.removeEventListener('click', menuHandler);
-      } else {
-        menuBtn.addEventListener('click', menuHandler);
-        btnClose.addEventListener('click', menuHandler);
-      }
-    });
   };
 
 
