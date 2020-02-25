@@ -72,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let counter = 0;
       const step = 4;
 
-      return function () {
+      return function() {
         counter += step;
 
         return counter;
@@ -223,7 +223,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     for (const item of menuItems) {
-      item.addEventListener('click', function (event) {
+      item.addEventListener('click', function(event) {
         toSecondScreen(event, document.querySelector(this.getAttribute('href')));
       });
     }
@@ -280,7 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const nextSlide = (elem, index, selector) => {
       elem[index].classList.add(selector);
     };
-    
+
     const createDots = () => {
       const dots = document.createElement('ul'),
         list = [];
@@ -379,4 +379,40 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   slider();
+
+  const team = () => {
+    const command = document.getElementById('command');
+
+    const toggleImg = () => {
+      const target = event.target;
+
+      if (!target.matches('.command__photo')) return;
+
+      const tempImg = target.src;
+
+      target.src = target.dataset.img;
+      target.dataset.img = tempImg;
+    };
+
+    command.addEventListener('mouseover', toggleImg);
+    command.addEventListener('mouseout', toggleImg);
+  };
+
+  team();
+
+  const calculator = () => {
+    const inputs = document.querySelectorAll('.calc-block [type="number"]');
+
+    const replaceToNumber = () => {
+      const target = event.target;
+
+      target.value = target.value.replace(/\W/i, '');
+    };
+
+    inputs.forEach(input => {
+      input.addEventListener('input', replaceToNumber);
+    });
+  };
+
+  calculator();
 });
