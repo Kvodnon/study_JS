@@ -478,6 +478,8 @@ window.addEventListener('DOMContentLoaded', () => {
       form = document.getElementById('form1'),
       messageStatus = document.createElement('img');
     
+    messageStatus.style.width = '300px';
+    
     const postData = (body, outputData, errorData) => {
       const request = new XMLHttpRequest();
 
