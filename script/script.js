@@ -399,7 +399,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const calculator = (price = 100) => {
     const calcBlock = document.querySelector('.calc-block'),
-      inputs = document.querySelectorAll('.calc-block [type="number"]'),
       calcType = document.querySelector('.calc-type'),
       calcSquare = document.querySelector('.calc-square'),
       calcDay = document.querySelector('.calc-day'),
@@ -408,13 +407,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const replaceToNumber = () => {
       const target = event.target;
+      
+      if (!target.matches('input'));
 
-      target.value = target.value.replace(/\W/i, '');
+      target.value = target.value.replace(/[^\d]/, '');
     };
 
-    inputs.forEach(input => {
-      input.addEventListener('input', replaceToNumber);
-    });
+    calcBlock.addEventListener('input', replaceToNumber);
 
     const countSum = () => {
       let total = 0,
