@@ -466,4 +466,62 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   calculator();
+
+  const sendForm = () => {
+    const messages = {
+      error: 'Что-то пошло не  так...',
+      load: 'Загрузка...',
+      success: 'Спасибо! Мы скоро с вами свяжеммся'
+    },
+      form = document.getElementById('form1'),
+      messageStatus = document.createElement('div');
+
+    messageStatus.style.cssText = 'font-size: 2rem;';
+    
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState !== 4) {
+          return;
+        }
+
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+      
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-type', 'application/json');
+      request.send(JSON.stringify(body));
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      form.appendChild(messageStatus);
+      messageStatus.textContent = messages.load;
+
+      const formData = new FormData(form);
+
+      let body = {};
+
+      formData.forEach((value, key) => {
+        body[key] = value;
+      });
+
+      postData(body, () => {
+        messageStatus.textContent = messages.success;
+      }, (error) => {
+        messageStatus.textContent = messages.error;
+        console.error(error);
+      });
+
+      form.reset();
+    });
+  };
+
+  sendForm();
 });

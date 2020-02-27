@@ -1,4 +1,4 @@
-function maskPhone(elem, selector, masked = '+7 (___) ___-__-__') {
+function maskPhone(elem, selector, masked = '+7__________') {
 	if (!elem) {
 		elem = document.querySelector(selector);
 	}
