@@ -386,12 +386,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const toggleImg = () => {
       const target = event.target;
 
-      if (!target.matches('.command__photo')) return;
+      if (!target.matches('img')) return;
 
-      const tempImg = target.src;
-
-      target.src = target.dataset.img;
-      target.dataset.img = tempImg;
+      [target.dataset.img, target.src] = [target.src, target.dataset.img];
     };
 
     command.addEventListener('mouseover', toggleImg);
