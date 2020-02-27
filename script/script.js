@@ -468,15 +468,15 @@ window.addEventListener('DOMContentLoaded', () => {
   calculator();
 
   const sendForm = () => {
+    const imgPath = './images/request/';
+
     const messages = {
-      error: 'Что-то пошло не  так...',
-      load: 'Загрузка...',
-      success: 'Спасибо! Мы скоро с вами свяжеммся'
+      error: imgPath + 'error.jpg',
+      load: imgPath + 'loading.jpg',
+      success: imgPath + 'success.jpg'
     },
       form = document.getElementById('form1'),
-      messageStatus = document.createElement('div');
-
-    messageStatus.style.cssText = 'font-size: 2rem;';
+      messageStatus = document.createElement('img');
     
     const postData = (body, outputData, errorData) => {
       const request = new XMLHttpRequest();
@@ -502,7 +502,7 @@ window.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       
       form.appendChild(messageStatus);
-      messageStatus.textContent = messages.load;
+      messageStatus.src = messages.load;
 
       const formData = new FormData(form);
 
@@ -513,9 +513,9 @@ window.addEventListener('DOMContentLoaded', () => {
       });
 
       postData(body, () => {
-        messageStatus.textContent = messages.success;
+        messageStatus.src = messages.success;
       }, (error) => {
-        messageStatus.textContent = messages.error;
+        messageStatus.src = messages.error;
         console.error(error);
       });
 
