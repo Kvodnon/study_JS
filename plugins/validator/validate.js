@@ -1,13 +1,6 @@
 'use strict';
 
 (function() {
-  const selector = '[name="user_phone"]',
-    phones = document.querySelectorAll(selector);
-  
-  phones.forEach((phone) => {
-    maskPhone(phone);
-  });
-
   const forms = document.querySelectorAll('[name="user_form"], [name="user_message"]');
 
   forms.forEach((form) => {
