@@ -481,24 +481,12 @@ window.addEventListener('DOMContentLoaded', () => {
     messageStatus.style.width = '300px';
     
     const postData = (body) => {
-      return new Promise((resolve, reject) => {
-        const request = new XMLHttpRequest();
-  
-        request.addEventListener('readystatechange', () => {
-          if (request.readyState !== 4) {
-            return;
-          }
-  
-          if (request.status === 200) {
-            resolve();
-          } else {
-            reject(request.statusText);
-          }
-        });
-        
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-type', 'application/json');
-        request.send(JSON.stringify(body));
+      return fetch('./server.php', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
       });
     };
 
@@ -516,11 +504,14 @@ window.addEventListener('DOMContentLoaded', () => {
         body[key] = value;
       });
 
-      postData(body).then(() => {
+      postData(body).then((response) => {
+        if (response.status !== 200) {
+          throw new Error(response.statusText);
+        }
         messageStatus.src = messages.success;
       }, (error) => {
         messageStatus.src = messages.error;
-        console.error(error);
+        console.log(error)
       });
 
       form.reset();
