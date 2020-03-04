@@ -18,22 +18,29 @@ const openPopup = () => {
         popupContent.style.opacity = 1;
         popup.style.opacity = 1;
       }, 50);
+    } else {
+      popupContent.style.opacity = 1;
+      popup.style.opacity = 1;
     }
 
     popup.style.display = 'block';
   };
 
   const closePopup = () => {
-    if (window.innerWidth > 768) {
-      popupContent.style.opacity = 0;
-      popup.style.opacity = 0;
+    let opacity = 1;
 
-      setTimeout(() => {
+    if (window.innerWidth > 768) {
+      opacity = 0;
+      
+       setTimeout(() => {
         popup.style.display = 'none';
       }, 400);
     } else {
       popup.style.display = 'none';
     }
+    
+    popupContent.style.opacity = opacity;
+    popup.style.opacity = opacity;
   };
 
   serviceBlock.addEventListener('click', animatePopup);
