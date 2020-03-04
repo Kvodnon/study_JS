@@ -11,10 +11,10 @@ const initMouseClick = () => {
   function translateScroll(offsetTop) {
     frameId = requestAnimationFrame(translateScroll.bind(this, offsetTop));
 
-    const difference = offsetTop - ((offsetTop % window.scrollY) % scrollStep),
+    const difference = offsetTop - ((offsetTop % window.pageYOffset) % scrollStep),
       scrollBottom = window.document.documentElement.offsetHeight - window.document.documentElement.clientHeight;
 
-    if (window.scrollY === difference || window.scrollY === scrollBottom) {
+    if (window.pageYOffset === difference || window.pageYOffset === scrollBottom) {
       cancelAnimationFrame(frameId);
       document.documentElement.scrollTop = offsetTop;
       return;

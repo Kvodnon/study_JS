@@ -6,7 +6,7 @@ const sendForm = () => {
     load: imgPath + 'loading.jpg',
     success: imgPath + 'success.jpg'
   },
-    form = document.getElementById('form1'),
+    forms = document.getElementsByTagName('form'),
     messageStatus = document.createElement('img');
   
   messageStatus.style.width = '300px';
@@ -21,32 +21,35 @@ const sendForm = () => {
     });
   };
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    
-    form.appendChild(messageStatus);
-    messageStatus.src = messages.load;
-
-    const formData = new FormData(form);
-
-    let body = {};
-
-    formData.forEach((value, key) => {
-      body[key] = value;
+  for (const form of forms) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      form.appendChild(messageStatus);
+      messageStatus.src = messages.load;
+  
+      const formData = new FormData(form);
+  
+      let body = {};
+  
+      formData.forEach((value, key) => {
+        body[key] = value;
+      });
+  
+      postData(body).then((response) => {
+        if (response.status !== 200) {
+          throw new Error(response.statusText);
+        }
+        messageStatus.src = messages.success;
+      }, (error) => {
+        messageStatus.src = messages.error;
+        console.log(error)
+      });
+  
+      form.reset();
     });
+  }
 
-    postData(body).then((response) => {
-      if (response.status !== 200) {
-        throw new Error(response.statusText);
-      }
-      messageStatus.src = messages.success;
-    }, (error) => {
-      messageStatus.src = messages.error;
-      console.log(error)
-    });
-
-    form.reset();
-  });
 };
 
 export default sendForm;

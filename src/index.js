@@ -17,6 +17,8 @@ import slider from './modules/slider';
 import team from './modules/team';
 import calculator from './modules/calculator';
 import sendForm from './modules/form';
+import mask from './modules/plugins/maskPhone';
+import validate from './modules/plugins/validate';
 
 setInterval(countTimer, 1000, '21 february 2020');
 toggleMenu();
@@ -27,3 +29,4 @@ slider();
 team();
 calculator();
 sendForm();
+validate(mask);
