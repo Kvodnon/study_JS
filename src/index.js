@@ -1,32 +1,24 @@
-'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import Clock from './App';
+import Button from './Button';
+import * as serviceWorker from './serviceWorker';
 
-import '@babel/polyfill';
-import 'nodelist-foreach-polyfill';
-import 'formdata-polyfill';
-import 'es6-promise';
-import 'fetch-polyfill';
-import elementClosest from 'element-closest';
-elementClosest(window);
+class App extends React.Component {
+  render() {
+    return (
+      <div className="wrapper">
+        <Clock />
+        <Button />
+      </div>
+    );
+  }
+}
 
-import countTimer from './modules/timer';
-import toggleMenu from './modules/toggleMenu';
-import openPopup from './modules/popup';
-import initMouseClick from './modules/mouseClick';
-import tabs from './modules/tabs';
-import slider from './modules/slider';
-import team from './modules/team';
-import calculator from './modules/calculator';
-import sendForm from './modules/form';
-import mask from './modules/plugins/maskPhone';
-import validate from './modules/plugins/validate';
+ReactDOM.render(<App />, document.getElementById('root'));
 
-setInterval(countTimer, 1000, '21 february 2020');
-toggleMenu();
-openPopup();
-initMouseClick();
-tabs();
-slider();
-team();
-calculator();
-sendForm();
-validate(mask);
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
